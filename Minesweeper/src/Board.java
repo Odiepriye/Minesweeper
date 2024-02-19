@@ -49,8 +49,11 @@ public class Board {
             setNumbers();
             numberSet = true;
         }
-        boolean[][] visited = new boolean[row][col];
-        flashFlip(r, c, visited);
+        if (tiles[r][c].getNumber() == 0) {
+            boolean[][] visited = new boolean[row][col];
+            System.out.println("first 0");
+            flashFlip(r, c, visited);
+        }
     }
     private void setBombs(byte r, byte c){
         int bombSet = 0;
@@ -100,6 +103,7 @@ public class Board {
                 }
             }
         }
+        printBoard();
     }
     public byte getRow() {
         return row;
@@ -117,6 +121,7 @@ public class Board {
         if (!gameStarted) {
             firstFlip(r, c);
             gameStarted = true;
+            return;
         }
         if (!tiles[r][c].isFlagged()) {
             if (tiles[r][c].isBomb()) {
@@ -168,5 +173,22 @@ public class Board {
     }
     public boolean isGameWon() {
         return gameWon;
+    }
+    public void printBoard() {
+        System.out.println("Current Board State:");
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (tiles[i][j].isFlipped()) {
+                    if (tiles[i][j].isBomb()) {
+                        System.out.print("* "); // Representing a flipped bomb
+                    } else {
+                        System.out.print(tiles[i][j].getNumber() + " ");
+                    }
+                } else {
+                    System.out.print(". "); // Representing an unflipped tile
+                }
+            }
+            System.out.println();
+        }
     }
 }

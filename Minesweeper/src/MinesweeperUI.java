@@ -31,6 +31,7 @@ public class MinesweeperUI extends JFrame {
                 if (SwingUtilities.isLeftMouseButton(evt)) {
                     board.leftClickTile((byte) row, (byte) col);
                     updateButtonState(row, col);
+                    updateUI();
                     checkGameState();
                 } else if (SwingUtilities.isRightMouseButton(evt)) {
                     if(board.viewFlags() != 0){
@@ -57,6 +58,13 @@ public class MinesweeperUI extends JFrame {
             button.setText("");
         }
     }
+    private void updateUI(){
+        for (int i = 0; i < board.getRow(); i++) {
+            for (int j = 0; j < board.getCol(); j++) {
+                updateButtonState(i,j);
+            }
+        }
+    }
     private void checkGameState() {
         if (board.isGameLost()) {
             JOptionPane.showMessageDialog(this, "You Lost!");
@@ -77,6 +85,7 @@ public class MinesweeperUI extends JFrame {
         }
     }
     public static void main(String[] args) {
+        System.out.println();
         SwingUtilities.invokeLater(MinesweeperUI::new);
     }
 }
