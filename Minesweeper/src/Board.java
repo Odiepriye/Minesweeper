@@ -42,6 +42,11 @@ public class Board {
         random = new Random();
     }
     public void firstFlip(byte r, byte c){
+//        for (int i = Math.max(0, r - 1); i < Math.min(row, r + 2); i++) {
+//            for (int j = Math.max(0, c - 1); j < Math.min(col, c + 2); j++) {
+//                tiles[i][j].setBomb(false);
+//            }
+//        }
         tiles[r][c].flip();
         flippables--;
         setBombs(r,c);
@@ -51,7 +56,7 @@ public class Board {
         }
         if (tiles[r][c].getNumber() == 0) {
             boolean[][] visited = new boolean[row][col];
-            System.out.println("first 0");
+//            System.out.println("first 0");
             flashFlip(r, c, visited);
         }
     }
@@ -60,7 +65,8 @@ public class Board {
         while(bombSet < bomb){
             int rRow = random.nextInt(row);
             int rCol = random.nextInt(col);
-            if(!(rRow == r && rCol == c) && !tiles[rRow][rCol].isBomb()){
+            boolean isAdjacent = Math.abs(r - rRow) <= 1 && Math.abs(c - rCol) <= 1;
+            if (!(r == rRow && c == rCol) && !isAdjacent && !tiles[rRow][rCol].isBomb()){
                 tiles[rRow][rCol].setBomb(true);
                 bombSet++;
             }
@@ -103,7 +109,7 @@ public class Board {
                 }
             }
         }
-        printBoard();
+//        printBoard();
     }
     public byte getRow() {
         return row;
